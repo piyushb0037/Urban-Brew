@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Brew - Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Global Styles */
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body{ background:#f8f5f2; color:#333; transition:0.3s; }
+    .dark{ background:#121212; color:white; }
+
+    /* NAVBAR */
+    nav{ display:flex; justify-content:space-between; align-items:center; padding:20px 10%; position:sticky; top:0; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.05); z-index:1000; }
+    .dark nav{ background:#1e1e1e; }
+    nav ul{ list-style:none; display:flex; gap:30px; }
+    
+    /* Improved Link Styling */
+    nav ul li { cursor: pointer; transition: 0.3s; font-weight: 400; }
+    nav ul li:hover { color: #c89f94; }
+
+    .nav-right{ display:flex; align-items:center; gap:15px; }
+    .nav-right button{ padding:6px 12px; border:none; background:#6f4e37; color:white; border-radius:20px; cursor:pointer; }
+    
+    .cart{ background:#c89f94; padding:6px 12px; border-radius:20px; color:white; cursor: pointer; transition: 0.3s; }
+    .cart:hover{ background: #b0897f; transform: scale(1.05); }
+
+    /* HERO */
+    .hero{ height:80vh; background:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93') center/cover no-repeat; display:flex; align-items:center; justify-content:center; text-align:center; color:white; position:relative; }
+    .hero::before{ content:""; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
+    .hero-content{ position:relative; z-index:1; }
+    .hero h1{ font-size:3rem; margin-bottom:20px; }
+    .hero button { padding:12px 30px; border:none; background:#c89f94; color:white; font-weight:600; cursor:pointer; border-radius:30px; }
+
+    /* SECTIONS */
+    .info, .products{ text-align:center; padding:60px 10%; }
+    .product-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; margin-top:40px; }
+    .card{ background:white; border-radius:20px; padding:20px; box-shadow:0 5px 15px rgba(0,0,0,0.05); transition:0.3s; }
+    .dark .card{ background:#1e1e1e; }
+    .card:hover{ transform:translateY(-10px); }
+    .card img{ width:100%; height: 200px; object-fit: cover; border-radius:15px; }
+    .price{ color:#6f4e37; font-weight:bold; margin-top: 10px; display: block; }
+    .card button{ margin-top:15px; padding:10px 20px; border:none; background:#6f4e37; color:white; border-radius:20px; cursor:pointer; }
+
+    footer{ background:#6f4e37; color:white; text-align:center; padding:20px; margin-top:50px; }
+
+    @media(max-width:768px){ nav ul{ display:none; } }
+
+
+    /* TESTIMONIALS SECTION */
+    .testimonials { padding: 60px 10%; background: #fff; text-align: center; }
+    .dark .testimonials { background: #1a1a1a; }
+    
+    .testimonial-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 30px; 
+        margin-top: 40px; 
+    }
+    
+    .testi-card { 
+        background: #f8f5f2; 
+        padding: 30px; 
+        border-radius: 20px; 
+        transition: 0.3s; 
+        border: 1px solid transparent;
+    }
+    .dark .testi-card { background: #2a2a2a; color: white; }
+    
+    .testi-card:hover { 
+        transform: translateY(-5px); 
+        border-color: #c89f94; 
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+    }
+    
+    .stars { color: #f1c40f; margin-bottom: 15px; font-size: 1.2rem; }
+    .testi-card p { font-style: italic; color: #555; margin-bottom: 20px; }
+    .dark .testi-card p { color: #ccc; }
+    
+    .customer-info { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .customer-info strong { color: #6f4e37; }
+
+
+    /* REVIEW FORM STYLING */
+    .review-form-section { padding: 40px 10%; background: #fdfdfd; }
+    .dark .review-form-section { background: #121212; }
+    
+    .review-form { 
+        max-width: 600px; margin: 0 auto; padding: 30px; 
+        background: white; border-radius: 20px; 
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+    }
+    .dark .review-form { background: #1e1e1e; }
+
+    .star-rating { 
+        display: flex; flex-direction: row-reverse; 
+        justify-content: center; gap: 10px; margin-bottom: 20px; 
+    }
+    .star-rating input { display: none; }
+    .star-rating label { 
+        font-size: 2rem; color: #ddd; cursor: pointer; transition: 0.3s; 
+    }
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label { color: #f1c40f; }
+
+    .review-form input, .review-form textarea {
+        width: 100%; padding: 12px; margin-bottom: 15px;
+        border: 1px solid #ddd; border-radius: 10px; outline: none;
+    }
+    .dark .review-form input, .dark .review-form textarea {
+        background: #2a2a2a; color: white; border-color: #444;
+    }
+
+
+    .testi-card { position: relative; } /* Ensure the button can be positioned relative to the card */
+    
+    .delete-review {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        opacity: 0.6;
+    }
+    
+    .delete-review:hover { opacity: 1; transform: scale(1.1); }
+
+
+    /* Hide delete buttons by default */
+    .delete-review {
+        display: none !important;
+    }
+
+    /* Show delete buttons only when admin-mode is active */
+    .admin-mode .delete-review {
+        display: flex !important;
+    }
+</style>
+</head>
+<body>
+
+<nav>
+    <h2 onclick="goHome()" style="cursor:pointer;color:#6f4e37;">Urban Brew</h2>
+    <ul>
+        <li onclick="goHome()">Home</li>
+        <li onclick="goShop()">Shop</li>
+        <li onclick="goAbout()">About</li>
+        <li onclick="goContact()">Contact</li>
+    </ul>
+    <div class="nav-right">
+        <button onclick="toggleDarkMode()">🌙</button>
+        <button onclick="openAuth()">Login</button>
+        <div class="cart" onclick="goCart()">🛒 <span id="cart-count">0</span></div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Premium Coffee Experience</h1>
+        <button type="button" onclick="goShop()">Shop Now</button>
+    </div>
+</section>
+
+<section class="info">
+    <h2>Why Choose Us?</h2>
+    <p>Freshly roasted beans. Organic sourcing. Premium taste.</p>
+</section>
+
+<section class="products" id="products">
+    <h2>Best Sellers</h2>
+    <div class="product-grid">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348" alt="Espresso">
+            <h3>Classic Espresso</h3>
+            <span class="price">₹299</span>
+            <button onclick="addToCart(1, 'Classic Espresso', 299, 'https://images.unsplash.com/photo-1511920170033-f8396924c348')">Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096" alt="Cold Brew">
+            <h3>Cold Brew</h3>
+            <span class="price">₹349</span>
+            <button onclick="addToCart(2, 'Cold Brew', 349, 'https://images.unsplash.com/photo-1498804103079-a6351b050096')">Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93" alt="Mocha">
+            <h3>Mocha Delight</h3>
+            <span class="price">₹399</span>
+            <button onclick="addToCart(3, 'Mocha Delight', 399, 'https://images.unsplash.com/photo-1509042239860-f550ce710b93')">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+<section class="review-form-section">
+    <div class="review-form">
+        <h3>Share Your Coffee Experience</h3>
+        <p>Your feedback helps us brew better!</p>
+        
+        <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+
+        <input type="text" id="reviewerName" placeholder="Your Name" required>
+        <textarea id="reviewerText" rows="3" placeholder="Write your review here..." required></textarea>
+        <button class="card button" style="width: 100%;" onclick="submitReview()">Submit Review</button>
+    </div>
+</section>
+<section class="testimonials">
+    <h2>What Our Coffee Lovers Say</h2>
+    <p>Real feedback from our daily brew community.</p>
+    
+    <div class="testimonial-grid">
+        <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p>"The Classic Espresso is a game changer! Best way to start my morning. The delivery was incredibly fast."</p>
+            <div class="customer-info">
+                <strong>—Piyush Bansal</strong>
+            </div>
+        </div>
+        
+        <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p>"I love the Nitro Cold Brew. The ordering process was so smooth, and the website's dark mode looks amazing!"</p>
+            <div class="customer-info">
+                <strong>— Annanya Garg</strong>
+            </div>
+        </div>
+        
+        <div class="testi-card">
+            <div class="stars">★★★★☆</div>
+            <p>"Great selection of beans. The Mocha Delight is rich and creamy. Definitely my new favorite coffee spot."</p>
+            <div class="customer-info">
+                <strong>— Ansh Sharma</strong>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<footer>
+    © 2026 Urban Brew | Crafted with Passion ☕
+</footer>
+
+<script>
+    // 1. Initial Cart Load
+    let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    updateCartUI();
+
+    // 2. Navigation Functions
+    function goHome() { window.location.href = "index.html"; }
+    function goShop() { window.location.href = "shop.html"; }
+    function goAbout() { window.location.href = "about.html"; }
+    function goContact() { window.location.href = "contact.html"; }
+    function goCart() { window.location.href = "cart.html"; }   
+    // UPDATED LOGIN REDIRECT
+    function openAuth() {
+        window.location.href = "login.html";
+    }
+    // 3. Cart Logic
+    function addToCart(id, name, price, img) {
+        const existingItem = cartItems.find(item => item.id === id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cartItems.push({ id, name, price, img, quantity: 1 });
+        }
+        updateCartUI();
+        alert(name + " added to cart! ☕");
+    }
+
+    function updateCartUI() {
+        const count = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        const countDisplay = document.getElementById("cart-count");
+        if(countDisplay) countDisplay.innerText = count;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
+
+    // 4. UI Features
+    function toggleDarkMode() {
+        document.body.classList.toggle("dark");
+    }
+
+
+    // Function to check login status and update navbar
+function checkLoginStatus() {
+    const savedName = localStorage.getItem("userName");
+    const loginBtn = document.querySelector("button[onclick='openAuth()']");
+
+    if (savedName && loginBtn) {
+        // Change "Login" text to the user's name
+        loginBtn.innerText = "Hi, " + savedName;
+        
+        // Optional: Change the function so clicking their name logs them out
+        loginBtn.onclick = function() {
+            if(confirm("Do you want to logout?")) {
+                localStorage.removeItem("userName");
+                location.reload();
+            }
+        };
+    }
+}
+
+// Call this function immediately when the script loads
+checkLoginStatus();
+
+
+// Function to check login status and update navbar
+function checkLoginStatus() {
+    const savedName = localStorage.getItem("userName");
+    const loginBtn = document.querySelector("button[onclick='openAuth()']");
+
+    if (savedName && loginBtn) {
+        // Change "Login" text to the user's name
+        loginBtn.innerText = "Hi " ;
+        
+        // Optional: Change the function so clicking their name logs them out
+        loginBtn.onclick = function() {
+            if(confirm("Do you want to logout?")) {
+                localStorage.removeItem("userName");
+                location.reload();
+            }
+        };
+    }
+}
+
+// Call this function immediately when the script loads
+checkLoginStatus();
+
+
+function submitReview() {
+    const name = document.getElementById('reviewerName').value;
+    const text = document.getElementById('reviewerText').value;
+    const ratingElement = document.querySelector('input[name="rating"]:checked');
+    
+    if (!name || !text || !ratingElement) {
+        alert("Please provide your name, a rating, and a comment! ☕");
+        return;
+    }
+
+    const rating = ratingElement.value;
+    const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+    // Create the new testimonial card
+    const newReview = `
+        <div class="testi-card">
+            <div class="stars">${stars}</div>
+            <p>"${text}"</p>
+            <div class="customer-info">
+                <strong>— ${name}</strong>
+            </div>
+        </div>
+    `;
+
+    // Append to the grid
+    document.querySelector('.testimonial-grid').insertAdjacentHTML('afterbegin', newReview);
+
+    // Clear the form
+    document.getElementById('reviewerName').value = "";
+    document.getElementById('reviewerText').value = "";
+    ratingElement.checked = false;
+
+    alert("Thank you for your review! It has been posted.");
+}
+
+
+function submitReview() {
+    const name = document.getElementById('reviewerName').value;
+    const text = document.getElementById('reviewerText').value;
+    const ratingElement = document.querySelector('input[name="rating"]:checked');
+    
+    if (!name || !text || !ratingElement) {
+        alert("Please provide your name, a rating, and a comment! ☕");
+        return;
+    }
+
+    const rating = ratingElement.value;
+    const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+    // Create a unique ID for each review to make it easy to delete
+    const reviewId = 'rev-' + Date.now();
+
+    const newReview = `
+        <div class="testi-card" id="${reviewId}">
+            <button class="delete-review" onclick="deleteReview('${reviewId}')">✕</button>
+            <div class="stars">${stars}</div>
+            <p>"${text}"</p>
+            <div class="customer-info">
+                <strong>— ${name}</strong>
+            </div>
+        </div>
+    `;
+
+    document.querySelector('.testimonial-grid').insertAdjacentHTML('afterbegin', newReview);
+
+    // Clear form fields
+    document.getElementById('reviewerName').value = "";
+    document.getElementById('reviewerText').value = "";
+    ratingElement.checked = false;
+}
+
+// Function to delete the specific review
+function deleteReview(id) {
+    if(confirm("Are you sure you want to delete this review?")) {
+        const reviewElement = document.getElementById(id);
+        if(reviewElement) {
+            reviewElement.remove();
+        }
+    }
+}
+
+function checkAdminAccess() {
+    // Get the name saved during login
+    const savedName = localStorage.getItem("userName");
+    
+    // Updated to your specific email's prefix
+    const adminID = "Piyush9201.bbadsai25";
+    
+    if (savedName === adminID) {
+        document.body.classList.add("admin-mode");
+        console.log("Admin access granted to Piyush.");
+    } else {
+        document.body.classList.remove("admin-mode");
+    }
+}
+
+// Call this whenever the page loads
+window.addEventListener('load', checkAdminAccess);
+</script>
+
+</body>
+</html>

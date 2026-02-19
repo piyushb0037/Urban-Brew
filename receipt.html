@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed - Urban Brew</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background:#f8f5f2; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .receipt-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
+        .success-icon { font-size: 50px; color: #27ae60; margin-bottom: 10px; }
+        h2 { color: #6f4e37; margin-bottom: 5px; }
+        .order-id { font-size: 0.8rem; color: #888; margin-bottom: 20px; }
+        .item-list { text-align: left; border-top: 1px dashed #ddd; border-bottom: 1px dashed #ddd; padding: 20px 0; margin-bottom: 20px; }
+        .item-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
+        .total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; color: #6f4e37; }
+        
+        /* Button Styles */
+        .btn-container { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
+        .btn-home { display: block; padding: 12px 30px; background: #6f4e37; color: white; text-decoration: none; border-radius: 10px; transition: 0.3s; border: none; font-size: 1rem; cursor: pointer; }
+        .btn-home:hover { background: #c89f94; }
+        .btn-download { background: #27ae60; }
+        .btn-download:hover { background: #2ecc71; }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="receipt-card">
+    <div class="success-icon">✔</div>
+    <h2>Thank You!</h2>
+    <p>Your order has been received.</p>
+    <p class="order-id" id="orderNumber"></p>
+
+    <div class="item-list" id="receipt-items">
+        </div>
+
+    <div class="total-row">
+        <span>Total Paid</span>
+        <span id="final-total">₹0</span>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn-home btn-download" id="downloadBtn" onclick="downloadPDF()">
+            Download Receipt (PDF)
+        </button>
+        <a href="index.html" class="btn-home" onclick="clearOrderData()">
+            Back to Home
+        </a>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        const orderData = JSON.parse(localStorage.getItem("lastOrder"));
+        const itemsContainer = document.getElementById("receipt-items");
+        const totalContainer = document.getElementById("final-total");
+        const orderIdContainer = document.getElementById("orderNumber");
+
+        if (orderData && orderData.length > 0) {
+            // Generate a random Order ID
+            orderIdContainer.innerText = "Order ID: #UB-" + Math.floor(Math.random() * 1000000);
+            
+            let total = 0;
+            itemsContainer.innerHTML = ""; // Clear existing
+            orderData.forEach(item => {
+                total += item.price * item.quantity;
+                itemsContainer.innerHTML += `
+                    <div class="item-row">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>₹${item.price * item.quantity}</span>
+                    </div>
+                `;
+            });
+            totalContainer.innerText = "₹" + total;
+        } else {
+            // If no order data, go back home
+            window.location.href = "index.html";
+        }
+    };
+
+    function clearOrderData() {
+        localStorage.removeItem("lastOrder");
+    }
+
+    function downloadPDF() {
+        const element = document.querySelector(".receipt-card");
+        const buttons = document.querySelectorAll(".btn-home");
+
+        // Hide buttons for the PDF
+        buttons.forEach(btn => btn.style.display = "none");
+
+        const opt = {
+            margin:       10,
+            filename:     'UrbanBrew_Receipt.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Generate PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Show buttons again after download starts
+            buttons.forEach(btn => btn.style.display = "block");
+        });
+    }
+</script>
+
+</body>
+</html>

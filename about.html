@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Brew - About Us</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f8f5f2;
+    color:#333;
+    transition:0.3s;
+}
+
+.dark{
+    background:#121212;
+    color:white;
+}
+
+/* NAVBAR */
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 10%;
+    background:white;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    position:sticky;
+    top:0;
+    z-index: 1000;
+}
+
+.dark nav{
+    background:#1e1e1e;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    gap:25px;
+}
+
+nav ul li{
+    cursor:pointer;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.nav-right button{
+    padding:6px 12px;
+    border:none;
+    background:#6f4e37;
+    color:white;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.cart{
+    background:#c89f94;
+    padding:6px 12px;
+    border-radius:20px;
+    color:white;
+}
+
+/* ABOUT CONTENT */
+.about-hero {
+    height: 50vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.about-hero h1 {
+    font-size: 3.5rem;
+}
+
+.section {
+    padding: 80px 15%;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.section:nth-child(even) {
+    flex-direction: row-reverse;
+    background: #fff;
+}
+
+.dark .section:nth-child(even) {
+    background: #1e1e1e;
+}
+
+.section-img {
+    flex: 1;
+}
+
+.section-img img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.section-text {
+    flex: 1;
+}
+
+.section-text h2 {
+    color: #6f4e37;
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+}
+
+.section-text p {
+    line-height: 1.8;
+    color: #666;
+}
+
+.dark .section-text p {
+    color: #ccc;
+}
+
+/* TEAM SECTION */
+.team {
+    text-align: center;
+    padding: 80px 10%;
+}
+
+.team h2 {
+    margin-bottom: 40px;
+    color: #6f4e37;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+}
+
+.team-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* FOOTER */
+footer{
+    background:#6f4e37;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:768px){
+    nav ul, .about-hero h1 { display:none; }
+    .section { flex-direction: column !important; padding: 40px 10%; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <h2 onclick="goHome()" style="cursor:pointer;color:#6f4e37;">Urban Brew</h2>
+    <ul>
+        <li onclick="goHome()">Home</li>
+        <li onclick="goShop()">Shop</li>
+        <li onclick="goAbout()">About</li>
+        <li onclick="goContact()">Contact</li>
+    </ul>
+    <div class="nav-right">
+        <button onclick="toggleDarkMode()">🌙</button>
+        <div class="cart">🛒 <span id="cart-count">0</span></div>
+    </div>
+</nav>
+
+<header class="about-hero">
+    <h1>Our Story</h1>
+</header>
+
+<section class="section">
+    <div class="section-text">
+        <h2>Brewing Excellence Since 2026</h2>
+        <p>Urban Brew started with a simple idea: that everyone deserves access to high-quality, ethically sourced coffee. We spend months traveling to find the perfect beans and roasting them in small batches to preserve their unique flavors.</p>
+    </div>
+    <div class="section-img">
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31" alt="Coffee Roasting">
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-text">
+        <h2>Sustainable & Ethical</h2>
+        <p>We work directly with farmers to ensure fair wages and sustainable practices. Our goal is to leave the world better than we found it, one cup of coffee at a time.</p>
+    </div>
+    <div class="section-img">
+        <img src="data:image/jpeg;base64,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" alt="Eco Friendly Coffee">
+    </div>
+</section>
+
+<!-- <section class="team">
+    <h2>Meet the Experts</h2>
+    <div class="team-grid">
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Team Member">
+            <h3>Alex Rivers</h3>
+            <p>Master Roaster</p>
+        </div>
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="Team Member">
+            <h3>Sarah Chen</h3>
+            <p>Head Barista</p>
+        </div>
+        <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e" alt="Team Member">
+            <h3>Marcus Thorne</h3>
+            <p>Founder</p>
+        </div>
+    </div>
+</section> -->
+
+<footer>
+    © 2026 Urban Brew | Crafted with Passion ☕
+</footer>
+
+<script>
+/* CART LOGIC (Persistent) */
+let cart = localStorage.getItem("cart") || 0;
+document.getElementById("cart-count").innerText = cart;
+
+/* NAVIGATION */
+function goHome(){ window.location.href = "index.html"; }
+function goShop(){ window.location.href = "shop.html"; }
+function goAbout(){ window.location.href = "about.html"; }
+function goContact(){ window.location.href = "contact.html"; }
+
+/* UI FEATURES */
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>

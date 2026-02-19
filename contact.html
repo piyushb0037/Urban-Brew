@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Brew - Contact Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Standard Styles for Consistency */
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body{ background:#f8f5f2; color:#333; transition:0.3s; }
+    .dark{ background:#121212; color:white; }
+
+    /* NAVBAR */
+    nav{ display:flex; justify-content:space-between; align-items:center; padding:20px 10%; position:sticky; top:0; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.05); z-index:1000; }
+    .dark nav{ background:#1e1e1e; }
+    nav ul{ list-style:none; display:flex; gap:30px; }
+    nav ul li{ cursor:pointer; }
+    .nav-right{ display:flex; align-items:center; gap:15px; }
+    .nav-right button{ padding:6px 12px; border:none; background:#6f4e37; color:white; border-radius:20px; cursor:pointer; }
+    .cart{ background:#c89f94; padding:6px 12px; border-radius:20px; color:white; }
+
+    /* CONTACT SECTION */
+    .contact-container {
+        padding: 80px 10%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 50px;
+    }
+
+    .contact-info h2 {
+        color: #6f4e37;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .contact-info p {
+        margin-bottom: 30px;
+        line-height: 1.6;
+        color: #666;
+    }
+    .dark .contact-info p { color: #ccc; }
+
+    .details { margin-bottom: 20px; }
+    .details h4 { color: #6f4e37; margin-bottom: 5px; }
+
+    /* CONTACT FORM */
+    .contact-form {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    .dark .contact-form { background: #1e1e1e; }
+
+    .contact-form h3 { margin-bottom: 20px; }
+
+    .input-group { margin-bottom: 20px; }
+    .input-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+    .input-group input, .input-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        outline: none;
+        background: #fafafa;
+    }
+    .dark .input-group input, .dark .input-group textarea { background: #2a2a2a; border-color: #444; color: white; }
+
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        background: #6f4e37;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .submit-btn:hover { background: #c89f94; }
+
+    /* FOOTER */
+    footer{ background:#6f4e37; color:white; text-align:center; padding:20px; margin-top:50px; }
+
+    @media(max-width:768px){ nav ul{ display:none; } }
+</style>
+</head>
+<body>
+
+<nav>
+    <h2 onclick="goHome()" style="cursor:pointer;color:#6f4e37;">Urban Brew</h2>
+    <ul>
+        <li onclick="goHome()">Home</li>
+        <li onclick="goShop()">Shop</li>
+        <li onclick="goAbout()">About</li>
+        <li onclick="goContact()">Contact</li>
+    </ul>
+    <div class="nav-right">
+        <button onclick="toggleDarkMode()">🌙</button>
+        <div class="cart">🛒 <span id="cart-count">0</span></div>
+    </div>
+</nav>
+
+<section class="contact-container">
+    <div class="contact-info">
+        <h2>Get in Touch</h2>
+        <p>Have a question about our beans or want to partner with us? Reach out and our team will get back to you within 24 hours.</p>
+        
+        <div class="details">
+            <h4>📍 Visit Us</h4>
+            <p>Chitkara University , Rajpura , Punjab</p>
+        </div>
+        <div class="details">
+            <h4>📞 Call Us</h4>
+            <p>+91 7526854637</p>
+        </div>
+        <div class="details">
+            <h4>📧 Email</h4>
+            <p>Piyush9201.bbadsai25@chitkara.edu.in</p>
+        </div>
+    </div>
+
+    <div class="contact-form">
+        <h3>Send us a Message</h3>
+        <form onsubmit="event.preventDefault(); alert('Message Sent Successfully!');">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Enter your name" required>
+            </div>
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label>Message</label>
+                <textarea rows="5" placeholder="How can we help?"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    © 2026 Urban Brew | Crafted with Passion ☕
+</footer>
+
+<script>
+    // Initial Cart Load
+    let cart = localStorage.getItem("cart") ? parseInt(localStorage.getItem("cart")) : 0;
+    document.getElementById("cart-count").innerText = cart;
+
+    // Navigation
+    function goHome(){ window.location.href = "index.html"; }
+    function goShop(){ window.location.href = "shop.html"; }
+    function goAbout(){ window.location.href = "about.html"; }
+    function goContact(){ window.location.href = "contact.html"; }
+
+    // UI Features
+    function toggleDarkMode(){
+        document.body.classList.toggle("dark");
+    }
+</script>
+
+</body>
+</html>

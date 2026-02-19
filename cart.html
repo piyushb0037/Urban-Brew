@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Brew - Your Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Existing Styles */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background:#f8f5f2; color:#333; transition:0.3s; }
+        .dark { background:#121212; color:white; }
+        
+        nav { 
+            display:flex; justify-content:space-between; align-items:center; 
+            padding:20px 10%; background:white; position:sticky; top:0; 
+            box-shadow:0 2px 10px rgba(0,0,0,0.05); z-index:1000;
+        }
+        .dark nav { background:#1e1e1e; }
+        nav ul { list-style:none; display:flex; gap:30px; }
+        nav ul li { cursor:pointer; }
+
+        .cart-container { padding: 50px 10%; }
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: white; padding: 20px; margin-bottom: 20px;
+            border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .dark .cart-item { background: #1e1e1e; color: white; }
+        .cart-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; }
+        
+        .cart-controls button {
+            padding: 5px 12px; background: #6f4e37; color: white;
+            border: none; border-radius: 5px; cursor: pointer;
+        }
+        .remove-btn { background: #e74c3c !important; margin-left: 20px; }
+        .cart-total { text-align: right; font-size: 1.5rem; margin-top: 30px; font-weight: bold; }
+        .submit-btn { 
+            padding: 15px 30px; background: #6f4e37; color: white; 
+            border: none; border-radius: 10px; cursor: pointer; font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2 onclick="goHome()" style="cursor:pointer; color:#6f4e37;">Urban Brew</h2>
+        <ul>
+            <li onclick="goHome()">Home</li>
+            <li onclick="goShop()">Shop</li>
+            <li onclick="goAbout()">About</li>
+            <li onclick="goContact()">Contact</li>
+        </ul>
+        <div class="nav-right">
+            <button onclick="toggleDarkMode()">🌙</button>
+            <div class="cart">🛒 <span id="cart-count">0</span></div>
+        </div>
+    </nav>
+
+    <div class="cart-container">
+        <h1>Your Shopping Cart</h1>
+        <div id="cart-items-list"></div>
+        <div class="cart-total" id="cart-total-price">Total: ₹0</div>
+        <button class="submit-btn" onclick="goToCheckout()" style="width: 200px; float: right; margin-top: 20px;">Checkout</button>
+    </div>
+
+    <script>
+        // 1. Navigation Functions
+        function goHome() { window.location.href = "index.html"; }
+        function goShop() { window.location.href = "shop.html"; }
+        function goAbout() { window.location.href = "about.html"; }
+        function goContact() { window.location.href = "contact.html"; }
+        function goToCheckout() { window.location.href = "checkout.html"; }
+
+        // 2. Cart Logic
+        let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+        function updateCartUI() {
+            const count = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+            document.getElementById("cart-count").innerText = count;
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        }
+
+        function displayFullCart() {
+            const listContainer = document.getElementById("cart-items-list");
+            const totalContainer = document.getElementById("cart-total-price");
+            listContainer.innerHTML = "";
+            let total = 0;
+
+            if (cartItems.length === 0) {
+                listContainer.innerHTML = "<h3>Your cart is empty. ☕</h3>";
+                totalContainer.innerText = "Total: ₹0";
+                return;
+            }
+
+            cartItems.forEach((item, index) => {
+                total += item.price * item.quantity;
+                listContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div style="display:flex; align-items:center; gap:20px;">
+                            <img src="${item.img}">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <p>₹${item.price}</p>
+                            </div>
+                        </div>
+                        <div class="cart-controls">
+                            <button onclick="changeQuantity(${index}, -1)">-</button>
+                            <span style="margin: 0 10px;">${item.quantity}</span>
+                            <button onclick="changeQuantity(${index}, 1)">+</button>
+                            <button class="remove-btn" onclick="removeItem(${index})">Discard</button>
+                        </div>
+                    </div>
+                `;
+            });
+            totalContainer.innerText = "Total: ₹" + total;
+        }
+
+        function changeQuantity(index, delta) {
+            cartItems[index].quantity += delta;
+            if (cartItems[index].quantity < 1) removeItem(index);
+            else {
+                updateCartUI();
+                displayFullCart();
+            }
+        }
+
+        function removeItem(index) {
+            cartItems.splice(index, 1);
+            updateCartUI();
+            displayFullCart();
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark");
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            updateCartUI();
+            displayFullCart();
+        };
+    </script>
+</body>
+</html>

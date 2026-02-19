@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Brew - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Standard Styles for Consistency */
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body{ 
+        background:#f8f5f2; 
+        color:#333; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        transition: 0.3s;
+    }
+    .dark{ background:#121212; color:white; }
+
+    /* LOGIN CARD */
+    .auth-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+    .dark .auth-card { background: #1e1e1e; }
+
+    .auth-card h2 { color: #6f4e37; margin-bottom: 10px; }
+    .auth-card p { font-size: 0.9rem; color: #666; margin-bottom: 25px; }
+    .dark .auth-card p { color: #ccc; }
+
+    /* INPUTS */
+    .input-group { text-align: left; margin-bottom: 15px; }
+    .input-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; }
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        outline: none;
+        background: #fafafa;
+    }
+    .dark .input-group input { background: #2a2a2a; border-color: #444; color: white; }
+
+    /* BUTTONS */
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: #6f4e37;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+    .btn:hover { background: #c89f94; }
+
+    .switch-text { margin-top: 20px; font-size: 0.85rem; }
+    .switch-text span { color: #6f4e37; cursor: pointer; font-weight: 600; }
+
+    .back-home { margin-top: 20px; display: block; text-decoration: none; color: #999; font-size: 0.8rem; }
+</style>
+</head>
+<body class="">
+
+<div class="auth-card" id="loginBox">
+    <h2 id="authTitle">Login</h2>
+    <p id="authDesc">Welcome back! Please enter your details.</p>
+
+    <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email">
+    </div>
+
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="••••••••">
+    </div>
+
+    <button class="btn" onclick="handleAuth()">Login</button>
+
+    <p class="switch-text" id="switchLink">
+        Don't have an account? <span onclick="toggleAuth()">Register</span>
+    </p>
+
+    <a href="index.html" class="back-home">← Back to Home</a>
+</div>
+
+<script>
+    let isLoginView = true;
+
+    function toggleAuth() {
+        isLoginView = !isLoginView;
+        const title = document.getElementById("authTitle");
+        const desc = document.getElementById("authDesc");
+        const link = document.getElementById("switchLink");
+        const btn = document.querySelector(".btn");
+
+        if (isLoginView) {
+            title.innerText = "Login";
+            desc.innerText = "Welcome back! Please enter your details.";
+            btn.innerText = "Login";
+            link.innerHTML = `Don't have an account? <span onclick="toggleAuth()">Register</span>`;
+        } else {
+            title.innerText = "Register";
+            desc.innerText = "Create an account to start your coffee journey.";
+            btn.innerText = "Create Account";
+            link.innerHTML = `Already have an account? <span onclick="toggleAuth()">Login</span>`;
+        }
+    }
+
+function handleAuth() {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    if (email && pass) {
+        // Save the email (or name) to localStorage so other pages can see it
+        localStorage.setItem("userName", email.split('@')[0]); // This takes the part before '@'
+        
+        const action = isLoginView ? "Logged in" : "Registered";
+        alert(`${action} successfully! ☕`);
+        window.location.href = "index.html";
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
+    // Apply dark mode if active on body
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark");
+    }
+</script>
+
+</body>
+</html>
